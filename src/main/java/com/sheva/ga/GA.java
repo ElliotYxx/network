@@ -67,6 +67,7 @@ public class GA {
         for (int i = 0; i < entitySize; i++) {
             System.out.println("更新幸存度: " + i + " : " + gaEntity[i].printRoad());
         }
+        System.out.println();
     }
 
     /**

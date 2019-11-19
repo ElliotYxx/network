@@ -25,7 +25,10 @@ public class TS {
      * 禁忌长度
      */
     private int tabuSize;
-    private int N;
+    /**
+     * 邻域个数
+     */
+    private int neighborNum;
     private double[][] distance;
     /**
      * 当前代数
@@ -61,7 +64,7 @@ public class TS {
     public TS(int cityNum, int MAX_G, int N, int tabuSize){
         this.cityNum = cityNum;
         this.MAX_G = MAX_G;
-        this.N = N;
+        this.neighborNum = N;
         this.tabuSize = tabuSize;
 
     }
@@ -135,10 +138,6 @@ public class TS {
     }
 
     private double getDistance(int i, int j){return distance[i][j];}
-
-    /**
-     * 随机产生一个合法的初始解
-     */
     /**
      * 生成随机解
      */
@@ -156,7 +155,6 @@ public class TS {
     /**
      * 邻域交换
      * @param
-     * @return 1 存在  2 不存在
      */
     private void neighber(Integer[] road, Integer[] tempRoad){
         int temp;
@@ -202,7 +200,6 @@ public class TS {
             return 1;
         }
     }
-
     private void solveTabu(Integer[] tempRoad){
         //删除禁忌表第一个编码，后面编码往前移动
         for (int i = 0; i < tabuSize - 1; i++) {
@@ -221,7 +218,6 @@ public class TS {
             road2[i] = road1[i];
         }
     }
-
     private void start(){
         int nn;
         initDistance(true);
@@ -232,7 +228,7 @@ public class TS {
         while (t < MAX_G){
             nn = 0;
             currentLength = Double.MAX_VALUE;
-            while(nn < N){
+            while(nn < neighborNum){
                 //得到邻域代码
                 neighber(road, tempRoad);
                 if (judge(tempRoad) == 0){
@@ -267,14 +263,10 @@ public class TS {
             System.out.print(road[i] + ", ");
         }
     }
-
-
-
     public static void main(String[] args) {
 
         TS ts = new TS(30, 100, 10, 20);
         ts.init();
         ts.start();
     }
-
 }
