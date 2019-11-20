@@ -182,7 +182,6 @@ public class Pso {
         for (int i = 0; i < bestRoad.length; i++) {
             System.out.print(bestRoad[i] + " ;");
         }
-
     }
 
     /**
@@ -276,7 +275,6 @@ public class Pso {
         }
         return list;
     }
-
     /**
      * 交换更新
      * @param
@@ -290,7 +288,7 @@ public class Pso {
         }
     }
     public static void main(String[] args) {
-        Pso pso = new Pso(1000, 100, 0.5f);
+        Pso pso = new Pso(500, 100, 0.3f);
         pso.solve();
     }
 

@@ -4,7 +4,7 @@ import static com.sheva.pso.Pso.getDistance;
 
 /**
  * @author Sheva
- * @data 2019/11/19  下午4:04
+ * @date 2019/11/19  下午4:04
  * @Version 1.0
  */
 public class Entity {
@@ -16,6 +16,9 @@ public class Entity {
         mFitness = calFitness();
     }
 
+    /**
+     * 输出路径
+     */
     public void printRoad(){
         for (int i = 0; i < mPath.length; i++) {
             System.out.print(mPath[i] + " ;");
@@ -23,6 +26,9 @@ public class Entity {
         System.out.println();
     }
 
+    /**
+     * 更新适应度
+     */
     public void updateFitness(){
         this.mFitness  =calFitness();
     }
@@ -31,6 +37,10 @@ public class Entity {
         return mPath;
     }
 
+    /**
+     * 计算适应度
+     * @return
+     */
     public int calFitness(){
         int distance = 0;
         int n = mPath.length;
