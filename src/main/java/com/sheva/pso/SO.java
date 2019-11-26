@@ -4,6 +4,7 @@ package com.sheva.pso;
  * @author Sheva
  * @date 2019/11/19  下午3:28
  * @Version 1.0
+ * 储存交换下标
  */
 public class SO {
     private int x;

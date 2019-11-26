@@ -15,14 +15,11 @@ public class Pso {
             11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
             21, 22, 23, 24, 25, 26, 27, 28, 29};
 
-
     private int cityNum = 30;
 
     private int bestFitness;
 
     public static int[][] distance;
-
-    private HashMap<Integer, int[]> resultMap = new HashMap<Integer, int[]>();
 
     int[] bestRoad = new int[]{};
     /**
@@ -39,7 +36,7 @@ public class Pso {
      */
     private ArrayList<Entity> mUnits = new ArrayList<Entity>();
     /**
-     * 每个例子的初始交换顺序
+     * 每个粒子的初始交换顺序
      */
     private ArrayList<ArrayList<SO>> listV = new ArrayList<ArrayList<SO>>();
     /**
@@ -48,7 +45,7 @@ public class Pso {
     private HashMap<Integer, Entity> Pd = new HashMap<Integer, Entity>();
 
     /**
-     * 整个粒子群经历过的最好的解，每个粒子都能记住自己搜索到的最好解
+     * 整个粒子群经历过的最好的解
      */
     private Entity Pgd;
 
@@ -106,7 +103,6 @@ public class Pso {
             System.out.printf("%5s", i);
         }
         System.out.println();
-
         for (int i = 0; i < cityNum; i++) {
             System.out.printf("%5s", i);
             for (int j = 0; j < cityNum; j++) {
@@ -115,11 +111,6 @@ public class Pso {
             System.out.println();
         }
     }
-
-
-
-
-
     /**
      * 生成若干随机解
      */
@@ -139,6 +130,9 @@ public class Pso {
         System.out.println();
     }
 
+    /**
+     * 初始化惯性因子
+     */
     private void initListV(){
         for (int i = 0; i < scale; i++) {
             ArrayList<SO> list = new ArrayList<SO>();
@@ -192,20 +186,19 @@ public class Pso {
         for (int t = 0; t < MAX_G; t++) {
             for (int k = 0; k < scale; k++) {
                 ArrayList<SO> vii = new ArrayList<SO>();
-                //更新公式
+                //更新公式  vii=wVi+ra(Pid-Xid)+rb(Pgd-Xid)
                 int len = (int) (w*listV.get(k).size());
                 for (int i = 0; i < len; i++) {
                     vii.add(listV.get(k).get(i));
                 }
-                //得出交换序列
+                //与当前粒子中出现的最好的结果比较，得出交换序列  ra(Pid-Xid)
                 ArrayList<SO> a = minus(mUnits.get(k).getPath(), Pd.get(k).getPath());
                 float ra = random.nextFloat();
                 len = (int) (ra*a.size());
                 for (int i = 0; i < len; i++) {
                     vii.add(a.get(i));
                 }
-
-                //和全局最优比较，得出交换序列
+                //和全局最优比较，得出交换序列  rb(Pgd-Xid)
                 ArrayList<SO> b = minus(mUnits.get(k).getPath(), Pgd.getPath());
                 float rb = random.nextFloat();
                 len = (int)(rb*b.size());
@@ -215,10 +208,11 @@ public class Pso {
                 listV.remove(0);
                 listV.add(vii);
 
+                //交换，生成下一个粒子
                 exchange(mUnits.get(k).getPath(), vii);
             }
 
-            //更新适应度
+            //更新适应度,选择最好的个体
             for (int i = 0; i < scale; i++) {
                 mUnits.get(i).updateFitness();
                 if (Pd.get(i).getFitness() > mUnits.get(i).getFitness()){
@@ -247,11 +241,8 @@ public class Pso {
 //            }
         }
     }
-
-
-
     /**
-     * 生成交换序列
+     * 生成交换序列,返回需要交换的下标对象类
      * @param a
      * @param b
      * @return
@@ -275,6 +266,7 @@ public class Pso {
         }
         return list;
     }
+
     /**
      * 交换更新
      * @param
@@ -288,7 +280,7 @@ public class Pso {
         }
     }
     public static void main(String[] args) {
-        Pso pso = new Pso(500, 100, 0.3f);
+        Pso pso = new Pso(500, 100, 0.1f);
         pso.solve();
     }
 

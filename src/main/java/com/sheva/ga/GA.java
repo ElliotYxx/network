@@ -12,7 +12,7 @@ public class GA {
      * 初始化各参数（种群规模、迭代次数、个体选择方式、交叉概论、变异概率等）
      */
     private int entitySize = 100;
-    private int n = 100;
+    private int n = 500;
     /**
      * 变异概率
      */
